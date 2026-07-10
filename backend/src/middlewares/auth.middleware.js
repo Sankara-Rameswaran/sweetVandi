@@ -18,4 +18,15 @@ const authenticate = asyncHandler(async (req, res, next) => {
     next();
 });
 
-module.exports = authenticate;
+const authorize = (...roles) => {
+    return asyncHandler(async (req, res, next) => {
+        if (!req.user) throw new ApiError(401, 'Authurization Required');
+
+        const userRole = req.user.role;
+
+        if (roles.includes(userRole)) next();
+        throw new ApiError(403, 'Forbidden');
+    });
+};
+
+module.exports = { authenticate, authorize };

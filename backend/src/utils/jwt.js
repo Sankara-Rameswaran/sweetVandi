@@ -18,4 +18,13 @@ const verifyAccessToken = (token) => {
     return jwt.verify(token, jwtAccessSecret);
 };
 
-module.exports = { generateAccessToken, generateRefreshToken, verifyAccessToken };
+const verifyRefreshToken = (token) => {
+    return jwt.verify(token, jwtRefreshSecret);
+};
+
+module.exports = {
+    generateAccessToken,
+    generateRefreshToken,
+    verifyAccessToken,
+    verifyRefreshToken,
+};

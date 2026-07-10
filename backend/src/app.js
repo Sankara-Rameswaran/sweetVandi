@@ -4,7 +4,7 @@ const notFoundMiddleware = require('./middlewares/notFound.middleware');
 const authRoutes = require('./routes/auth.routes');
 const errorMiddleware = require('./middlewares/error.middleware');
 const cookieParser = require('cookie-parser');
-const authenticate = require('./middlewares/auth.middleware');
+const {authenticate} = require('./middlewares/auth.middleware');
 const asyncHandler = require('./middlewares/asyncHandler');
 
 const app = express();
