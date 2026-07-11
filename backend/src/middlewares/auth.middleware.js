@@ -24,7 +24,10 @@ const authorize = (...roles) => {
 
         const userRole = req.user.role;
 
-        if (roles.includes(userRole)) next();
+        if (roles.includes(userRole)) {
+            return next();
+        }
+
         throw new ApiError(403, 'Forbidden');
     });
 };
