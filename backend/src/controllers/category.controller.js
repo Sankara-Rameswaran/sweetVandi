@@ -7,6 +7,9 @@ const {
     deleteCategoryService,
 } = require('../services/category.service');
 
+const Category = require('../models/category.model');
+const { deleteFile } = require('../utils/file');
+
 const getCategories = async (req, res) => {
     const data = await getCategoriesService();
     res.status(200).json({
@@ -19,7 +22,12 @@ const getCategories = async (req, res) => {
 const createCategory = async (req, res) => {
     var data = req.body;
     const userId = req.user._id;
+    if (req.file) {
+        data.image = req.file.path;
+    }
+
     data = { ...data, createdBy: userId };
+
     const response = await createCategoryService(data);
     res.status(200).json({
         success: true,
@@ -50,7 +58,16 @@ const updateCategory = async (req, res) => {
 
 const partialUpdateCategory = async (req, res) => {
     const id = req.params.id;
-    const category = await partialUpdateById(id, req.body);
+    const oldCategory = await getById(id);
+    var data = { ...req.body };
+
+    var oldImagePath;
+    if (req.file) {
+        oldImagePath = oldCategory.image;
+        data.image = req.file.path;
+    }
+    const category = await partialUpdateById(id, data);
+    if (req.file && oldImagePath) await deleteFile(oldImagePath);
     res.status(200).json({
         success: true,
         message: 'Update Successfully',

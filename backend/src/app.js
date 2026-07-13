@@ -12,7 +12,7 @@ const authRoutes = require('./routes/auth.routes');
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
-
+app.use('/uploads', express.static('uploads'));
 app.use('/api/v1/', healthRoutes);
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/category', categoryRoutes);
