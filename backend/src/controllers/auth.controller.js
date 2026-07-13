@@ -1,8 +1,8 @@
 const { registerUser, loginUser } = require('../services/auth.service');
 const { generateAccessToken, generateRefreshToken, verifyRefreshToken } = require('../utils/jwt');
 const { setAccessTokenCookie, setRefreshTokenCookie, clearCookie } = require('../utils/cookies');
+const logger = require('../config/logger');
 const ApiError = require('../utils/ApiError');
-
 const registerController = async (req, res) => {
     const response = await registerUser(req.body);
     res.status(201).json({
@@ -21,7 +21,7 @@ const loginController = async (req, res) => {
     const refreshToken = generateRefreshToken(payload);
     setAccessTokenCookie(res, accessToken);
     setRefreshTokenCookie(res, refreshToken);
-
+    logger.info(`user logged in ${payload.userId}`);
     res.status(200).json({
         success: true,
         data: user,
@@ -55,8 +55,8 @@ const refreshController = async (req, res) => {
 };
 
 const logoutController = async (req, res) => {
-    clearCookie(res,'accessToken');
-    clearCookie(res,'refreshToken');
+    clearCookie(res, 'accessToken');
+    clearCookie(res, 'refreshToken');
     res.status(200).json({
         success: true,
         message: 'Logout success',
