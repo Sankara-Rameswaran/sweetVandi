@@ -21,7 +21,9 @@ router.post(
     asyncHandler(createCategory),
 );
 router.get('/:id', asyncHandler(getCategoryById));
+
 router.put('/:id', authenticate, authorize('admin'), asyncHandler(updateCategory));
+
 router.patch(
     '/:id',
     authenticate,
@@ -29,5 +31,7 @@ router.patch(
     upload.single('image'),
     asyncHandler(partialUpdateCategory),
 );
+
 router.delete('/:id', authenticate, authorize('admin'), asyncHandler(deleteCategory));
+
 module.exports = router;

@@ -10,4 +10,10 @@ const deleteFile = async (filePath) => {
     return;
 };
 
-module.exports = { deleteFile };
+const deleteFiles = async (files) => {
+    for (const file of files) {
+        await deleteFile(file);
+    }
+};
+
+module.exports = { deleteFile, deleteFiles };
