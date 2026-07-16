@@ -15,8 +15,11 @@ const { response } = require('express');
 
 const createProductController = async (req, res) => {
     const userId = req.user._id;
-    const images = extractPaths(req.files);
-    var data = { ...req.body, createdBy: userId, images };
+    var data = { ...req.body, createdBy: userId };
+    if (req.files) {
+        const images = extractPaths(req.files);
+        data = { ...data, images };
+    }
     const response = await createProduct(data);
     logger.info(`Product '${response.name}' created by ${req.user.firstName} ${req.user.lastName}`);
     res.status(200).json({

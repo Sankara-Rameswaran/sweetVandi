@@ -9,6 +9,7 @@ const categoryRoutes = require('./routes/category.routes');
 const healthRoutes = require('./routes/health.routes');
 const authRoutes = require('./routes/auth.routes');
 const productRoutes = require('./routes/product.routes');
+const cartRoutes = require('./routes/cart.routes');
 
 const app = express();
 app.use(express.json());
@@ -19,7 +20,7 @@ app.use('/api/v1/', healthRoutes);
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/category', categoryRoutes);
 app.use('/api/v1/product', productRoutes);
-
+app.use('/api/v1/cart', cartRoutes);
 app.use(errorMiddleware);
 
 app.use(notFoundMiddleware);
