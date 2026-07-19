@@ -12,6 +12,8 @@ const productRoutes = require('./routes/product.routes');
 const cartRoutes = require('./routes/cart.routes');
 const rateLimit = require('express-rate-limit');
 const app = express();
+const compressor = require('compression');
+const helmet = require('helmet');
 
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000,
@@ -23,6 +25,8 @@ const limiter = rateLimit({
     legacyHeaders: false,
 });
 
+app.use(compressor());
+app.use(helmet())
 app.use(express.json());
 app.use(cookieParser());
 app.use(morganWinston);
