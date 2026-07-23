@@ -63,4 +63,17 @@ const logoutController = async (req, res) => {
     });
 };
 
-module.exports = { registerController, loginController, refreshController, logoutController };
+const getMe = async (req, res) => {
+    res.status(200).json({
+        success: true,
+        user: req.user,
+    });
+};
+
+module.exports = {
+    registerController,
+    loginController,
+    refreshController,
+    logoutController,
+    getMe,
+};

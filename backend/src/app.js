@@ -14,7 +14,8 @@ const rateLimit = require('express-rate-limit');
 const app = express();
 const compressor = require('compression');
 const helmet = require('helmet');
-
+const orderRoutes = require('./routes/order.routes');
+const cors = require('cors');
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     limit: 2,
@@ -26,16 +27,23 @@ const limiter = rateLimit({
 });
 
 app.use(compressor());
-app.use(helmet())
+app.use(
+    cors({
+        origin: 'http://localhost:5173',
+        credentials: true,
+    }),
+);
+app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
 app.use(morganWinston);
 app.use('/uploads', express.static('uploads'));
 app.use('/api/v1/', healthRoutes);
-app.use('/api/v1/auth', limiter, authRoutes);
+app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/category', categoryRoutes);
 app.use('/api/v1/product', productRoutes);
 app.use('/api/v1/cart', cartRoutes);
+app.use('/api/v1/order', orderRoutes);
 app.use(errorMiddleware);
 
 app.use(notFoundMiddleware);
